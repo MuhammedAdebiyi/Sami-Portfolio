@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 /* ============================================
-   CUSTOM THEME - BLUE/BLACK
+   BROWN/WHITE THEME
    ============================================ */
 @theme {
-  /* Primary Blue Colors */
-  --color-primary-50: #e6f0ff;
-  --color-primary-100: #b3d4ff;
-  --color-primary-200: #80b8ff;
-  --color-primary-300: #4d9cff;
-  --color-primary-400: #1a80ff;
-  --color-primary-500: #0066e6;
-  --color-primary-600: #0052b3;
-  --color-primary-700: #003d80;
-  --color-primary-800: #00294d;
-  --color-primary-900: #00141a;
+  /* Brown Colors */
+  --color-brown-50: #fdf8f6;
+  --color-brown-100: #f2e8e5;
+  --color-brown-200: #eaddd7;
+  --color-brown-300: #e0cec7;
+  --color-brown-400: #d2bab0;
+  --color-brown-500: #bfa094;
+  --color-brown-600: #a18072;
+  --color-brown-700: #846358;
+  --color-brown-800: #43302b;
+  --color-brown-900: #3c2a2a;
 
-  /* Neutral Black/Gray Colors */
+  /* Neutral Colors */
   --color-neutral-50: #fafafa;
   --color-neutral-100: #f5f5f5;
   --color-neutral-200: #e5e5e5;
@@ -26,7 +26,7 @@
   --color-neutral-600: #525252;
   --color-neutral-700: #404040;
   --color-neutral-800: #262626;
-  --color-neutral-900: #0a0a0a;
+  --color-neutral-900: #171717;
 
   /* Font families */
   --font-family-sans: var(--font-inter), system-ui, sans-serif;
@@ -34,18 +34,23 @@
 }
 
 /* ============================================
-   BASE STYLES
+   BASE STYLES - MOBILE FIRST
    ============================================ */
 @layer base {
-  body {
-    @apply bg-white text-neutral-900 antialiased;
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom Scrollbar */
+  body {
+    @apply bg-white text-neutral-900 antialiased;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -55,104 +60,167 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary-500 rounded-full;
+    @apply bg-brown-600 rounded-full;
   }
 
   ::selection {
-    @apply bg-primary-100 text-primary-900;
+    @apply bg-brown-100 text-brown-900;
   }
 
-  h1, h2, h3 {
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair), serif;
     font-weight: 700;
   }
+
+  /* Touch friendly */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
 }
 
 /* ============================================
-   CUSTOM UTILITIES
+   UTILITIES
    ============================================ */
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(135deg, #0052b3 0%, #1a80ff 50%, #4d9cff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% auto;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .bg-gradient-blue {
-    background: linear-gradient(135deg, #0066e6 0%, #003d80 100%);
-  }
-
+  /* Container */
   .container-custom {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  .section-padding {
+  /* Section spacing */
+  .section {
     @apply py-16 md:py-24 lg:py-32;
   }
 
+  /* Buttons - min 48px for touch */
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200;
   }
 
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
+  .btn-brown {
+    @apply bg-brown-700 text-white;
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+  .btn-brown:active {
+    @apply scale-95 bg-brown-800;
+  }
+
+  @media (hover: hover) {
+    .btn-brown:hover {
+      @apply bg-brown-800;
+    }
+  }
+
+  .btn-outline {
+    @apply border-2 border-brown-700 text-brown-700;
+  }
+
+  .btn-outline:active {
+    @apply scale-95 bg-brown-50;
+  }
+
+  @media (hover: hover) {
+    .btn-outline:hover {
+      @apply bg-brown-700 text-white;
+    }
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-xl bg-white p-6 shadow-md transition-shadow duration-200;
+  }
+
+  .card:active {
+    @apply shadow-lg;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      @apply shadow-xl;
+    }
   }
 }
 
 /* ============================================
-   MAD ASS ANIMATIONS
+   ANIMATIONS - SMOOTH & CLEAN
    ============================================ */
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Slide Up */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes slide-in-left {
-  from { opacity: 0; transform: translateX(-50px); }
-  to { opacity: 1; transform: translateX(0); }
+/* Scale */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(50px); }
-  to { opacity: 1; transform: translateX(0); }
+/* Animation classes */
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out forwards;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease-out forwards;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 230, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(0, 102, 230, 0.6); }
+/* Delays */
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 200ms; }
+.delay-3 { animation-delay: 300ms; }
+.delay-4 { animation-delay: 400ms; }
+.delay-5 { animation-delay: 500ms; }
+
+/* ============================================
+   MOBILE OPTIMIZATION
+   ============================================ */
+
+/* Prevent text size adjustment on mobile */
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
-.animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
-.animate-slide-in-left { animation: slide-in-left 0.8s ease-out forwards; }
-.animate-slide-in-right { animation: slide-in-right 0.8s ease-out forwards; }
-.animate-scale-in { animation: scale-in 0.6s ease-out forwards; }
-.animate-float { animation: float 3s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+/* Better mobile images */
+img {
+  @apply max-w-full h-auto;
+}
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
+/* Safe area for notch devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+/* Smooth font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
